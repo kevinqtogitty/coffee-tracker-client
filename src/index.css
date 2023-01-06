@@ -1,5 +1,52 @@
+:root {
+  display: flex;
+  justify-content: center;
+}
+
 body {
   box-sizing: border-box;
   margin: 0rem;
   padding: 0rem;
+  max-width: 1440px;
+  background-color: antiquewhite;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+.tabs-root {
+  border: 2px solid red;
+  width: 20rem;
+}
+
+.tabs-list {
+  display: flex;
+  border: 2px solid blue;
+  justify-content: space-around;
+  /* width: fit-content; */
+}
+
+.tabs-trigger {
+  width: 100%;
+}
+
+.sign-up-form,
+.sign-in-form {
+  border: 2px solid green;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+}
+
+.form-input-label-container {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.form-error-span {
+  color: red;
 }
