@@ -1,63 +1,66 @@
+import { FirebaseError } from 'firebase/app';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   Auth,
   onAuthStateChanged,
-  signOut
+  signOut,
+  browserSessionPersistence,
+  setPersistence
 } from 'firebase/auth';
+import { createUser } from '../requests/userRequests';
+import { User } from '../types/types';
 import { app } from './config';
+import { errorHandler } from './error_handler/firebaseErrorHandler';
 
 const auth = getAuth(app);
 
-const authObserver = onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    const uid = user.uid;
-    // ...
-  } else {
-    // User is signed out
-    // ...
-  }
-});
-
 const createANewUserWithEmailAndPassword = async (
-  auth: Auth,
   email: string,
-  password: string
+  password: string,
+  firstName: string,
+  lastName: string
 ) => {
   try {
     const newUser = await createUserWithEmailAndPassword(auth, email, password);
-    // add a user to postgres
-  } catch (error) {
-    console.log(error);
+    const data: User = {
+      userId: newUser.user.uid,
+      email: email,
+      firstName: firstName,
+      lastName: lastName
+    };
+
+    const userInDB = await createUser(data);
+    console.log('sent request');
+    return userInDB;
+  } catch (error: FirebaseError | any) {
+    return errorHandler(error);
   }
 };
 
-const signInUser = async (auth: Auth, email: string, password: string) => {
+const signInUser = async (email: string, password: string) => {
   try {
+    await setPersistence(auth, browserSessionPersistence);
     const signedInUser = await signInWithEmailAndPassword(
       auth,
       email,
       password
     );
+    console.log(signedInUser);
+    return signedInUser;
   } catch (error) {
-    console.log(error);
+    return errorHandler(error);
   }
 };
 
-const signOutUser = async (auth: Auth) => {
+const signOutUser = async () => {
   try {
     const signOutUser = await signOut(auth);
+    return signOutUser;
   } catch (error) {
-    console.log(error);
+    return errorHandler(error);
   }
 };
 
-export {
-  authObserver,
-  createANewUserWithEmailAndPassword,
-  signInUser,
-  signOutUser
-};
+export { createANewUserWithEmailAndPassword, signInUser, signOutUser };
