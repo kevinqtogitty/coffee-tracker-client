@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { User } from 'firebase/auth';
+import { User } from '../types/types';
 
-const baseURL = 'https://localhost:3001';
+const baseURL = 'http://localhost:3001';
 
 const createUser = async (user: User) => {
+  console.log('axios');
   try {
     const { data } = await axios.post(`${baseURL}/user`, user);
     return data;
@@ -21,9 +22,30 @@ const deleteUser = async (userId: number) => {
   }
 };
 
-const updateUser = async (userId: number, type: string) => {
+const updateUser = async (
+  userId: number,
+  type: string,
+  email?: string,
+  firstName?: string,
+  lastName?: string
+) => {
+  let dataToChange;
+  switch (type) {
+    case 'email':
+      dataToChange = email;
+      break;
+    case 'firstName':
+      dataToChange = firstName;
+      break;
+    case 'lastName':
+      dataToChange = lastName;
+      break;
+  }
   try {
-    const { data } = await axios.put(`${baseURL}/user/${userId}/${type}`);
+    const { data } = await axios.put(
+      `${baseURL}/user/${userId}/${type}`,
+      dataToChange
+    );
     return data;
   } catch (error) {
     console.log(error);
