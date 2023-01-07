@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { User } from '../types/types';
 
-const baseURL = 'http://localhost:3001';
-
 const createUser = async (user: User) => {
   console.log('axios');
   try {
-    const { data } = await axios.post(`${baseURL}/user`, user);
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/user`,
+      user
+    );
     return data;
   } catch (error) {
     console.log(error);
@@ -15,7 +16,9 @@ const createUser = async (user: User) => {
 
 const deleteUser = async (userId: number) => {
   try {
-    const { data } = await axios.delete(`${baseURL}/user/${userId}`);
+    const { data } = await axios.delete(
+      `${import.meta.env.VITE_BASE_URL}/user/${userId}`
+    );
     return data;
   } catch (error) {
     console.log(error);
@@ -43,7 +46,7 @@ const updateUser = async (
   }
   try {
     const { data } = await axios.put(
-      `${baseURL}/user/${userId}/${type}`,
+      `${import.meta.env.VITE_BASE_URL}/user/${userId}/${type}`,
       dataToChange
     );
     return data;
@@ -51,4 +54,4 @@ const updateUser = async (
     console.log(error);
   }
 };
-export { createUser, deleteUser, baseURL, updateUser };
+export { createUser, deleteUser, updateUser };
