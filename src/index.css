@@ -13,7 +13,10 @@ body {
   flex-direction: column;
   justify-content: center;
   height: 100vh;
+  width: 100%;
 }
+
+/* Radix Tab component*/
 
 .tabs-root {
   border: 2px solid red;
@@ -30,6 +33,8 @@ body {
 .tabs-trigger {
   width: 100%;
 }
+
+/* Forms */
 
 .sign-up-form,
 .sign-in-form {
@@ -49,4 +54,61 @@ body {
 
 .form-error-span {
   color: red;
+}
+
+.home-page,
+.login-page,
+.add-coffee-page {
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+  border: 2px solid blue;
+  position: relative;
+  display: flex;
+}
+
+.login-page {
+  justify-content: center;
+  align-items: center;
+}
+
+/* Navigation */
+.side-bar {
+  /* height: 100%; */
+  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.nav-root {
+  border: 2px solid blue;
+  /* height: 100%; */
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 3rem;
+}
+
+.nav-item {
+  font-size: 2rem;
+}
+
+.nav-link {
+  cursor: point;
+}
+
+.acc-settings-container {
+  border: 2px solid green;
+  width: fit-content;
+}
+
+.logout-button {
+  border: none;
+  padding: 0.5rem 1rem;
 }
