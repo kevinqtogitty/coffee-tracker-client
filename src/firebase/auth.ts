@@ -3,18 +3,14 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  Auth,
-  onAuthStateChanged,
   signOut,
   browserSessionPersistence,
   setPersistence
 } from 'firebase/auth';
 import { createUser } from '../requests/userRequests';
 import { User } from '../types/types';
-import { app } from './config';
+import { app, auth } from './config';
 import { errorHandler } from './error_handler/firebaseErrorHandler';
-
-const auth = getAuth(app);
 
 const createANewUserWithEmailAndPassword = async (
   email: string,
@@ -31,9 +27,8 @@ const createANewUserWithEmailAndPassword = async (
       lastName: lastName
     };
 
-    const userInDB = await createUser(data);
-    console.log('sent request');
-    return userInDB;
+    await createUser(data);
+    return;
   } catch (error: FirebaseError | any) {
     return errorHandler(error);
   }
@@ -54,13 +49,4 @@ const signInUser = async (email: string, password: string) => {
   }
 };
 
-const signOutUser = async () => {
-  try {
-    const signOutUser = await signOut(auth);
-    return signOutUser;
-  } catch (error) {
-    return errorHandler(error);
-  }
-};
-
-export { createANewUserWithEmailAndPassword, signInUser, signOutUser };
+export { createANewUserWithEmailAndPassword, signInUser };
