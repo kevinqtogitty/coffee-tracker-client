@@ -1,18 +1,23 @@
 import axios from 'axios';
-import { baseURL } from './userRequests';
 
-const getAllUsersCoffees = async (userId: number) => {
+const getAllUsersCoffees = async (userId: string) => {
+  console.log('here');
   try {
-    const { data } = await axios.get(`${baseURL}/coffee/${userId}`);
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/coffee/${userId}`
+    );
     return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-const addCoffee = async (userId: number) => {
+const addCoffee = async (userId: string) => {
   try {
-    const { data } = await axios.post(`${baseURL}/coffee`, userId);
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/coffee`,
+      userId
+    );
     return data;
   } catch (error) {
     console.log(error);
