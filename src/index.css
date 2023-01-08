@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@300;400;500&display=swap');
+
+* {
+  font-family: 'Red Hat Text', sans-serif;
+}
+
 :root {
   display: flex;
   justify-content: center;
@@ -8,7 +14,7 @@ body {
   margin: 0rem;
   padding: 0rem;
   max-width: 1440px;
-  background-color: antiquewhite;
+  background-color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -100,15 +106,178 @@ body {
 }
 
 .nav-link {
-  cursor: point;
+  cursor: pointer;
+  text-decoration: none;
+  color: #645caa;
 }
 
 .acc-settings-container {
-  border: 2px solid green;
+  /* border: 2px solid green; */
   width: fit-content;
 }
 
 .logout-button {
   border: none;
   padding: 0.5rem 1rem;
+  background-color: #bface0;
+  font-weight: bolder;
+  color: #363062;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+/* Home page */
+.home-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  border: 2px solid green;
+}
+
+.home-accordion-root {
+  border: 2px solid red;
+  position: absolute;
+  top: calc(30% - 5rem);
+  width: 100%;
+}
+.home-accordion-item {
+  border: 2px solid hotpink;
+}
+.home-accordion-trigger {
+  width: 100%;
+  cursor: pointer;
+  text-align: right;
+}
+.home-accordion-content {
+  overflow: hidden;
+  position: relative;
+}
+
+.home-accordion-content-container {
+  display: flex;
+  flex-direction: row;
+  column-gap: 5rem;
+  padding: 0.5rem;
+  justify-content: space-between;
+  height: 10rem;
+  margin-bottom: 0.5rem;
+}
+.home-accordion-content-left {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+.home-accordion-content-right {
+  display: flex;
+  height: fit-content;
+  flex-direction: column;
+  align-items: flex-end;
+  row-gap: 1rem;
+}
+
+.home-accordion-p {
+  margin: 0rem;
+}
+
+.home-accordion-p.notes {
+  /* border: 2px solid purple; */
+  width: 25rem;
+}
+
+.home-accordion-content[data-state='open'] {
+  animation: slide-down 500ms cubic-bezier(0.03, -0.02, 0.3, 0.98);
+}
+.home-accordion-content[data-state='closed'] {
+  animation: slide-up 500ms cubic-bezier(0.03, -0.02, 0.3, 0.98);
+}
+
+/* Dialog */
+
+.dialog-trigger {
+}
+
+.dialog-portal {
+  position: relative;
+}
+
+.dialog-overlay {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.dialog-content {
+  padding: 0.5rem 1rem;
+  position: absolute;
+  /* border: 2px solid red; */
+  align-self: center;
+  background-color: #fff;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.dialog-title {
+  margin: 0rem;
+  font-size: 1.2rem;
+  display: flex;
+}
+
+.dialog-description {
+  max-width: 20rem;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0rem;
+}
+
+.dialog-close {
+  align-self: flex-end;
+  padding: 0rem;
+  background-color: rgba(0, 0, 0, 0);
+  border: 0rem;
+  cursor: pointer;
+}
+
+.edit-coffee-form {
+  row-gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-coffee-fieldset {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-coffee-fieldset {
+  border: none;
+}
+
+.edit-coffee-radio-wrapper {
+  display: flex;
+  column-gap: 0.5rem;
+}
+/* Animations */
+
+@keyframes slide-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
