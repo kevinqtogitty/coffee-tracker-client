@@ -9,13 +9,14 @@ import { auth } from './firebase/config';
 import AddNewCoffeePage from './pages/AddNewCoffeePage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import { UsersCoffee } from './types/types';
 
 import { AuthRoutes } from './utils/AuthRoute';
 
 function App() {
   const [origins, setOrigins] = useState<[]>([]);
   const [processes, setProcesses] = useState<[]>([]);
-  const [usersCoffees, setUsersCoffees] = useState<[]>([]);
+  const [usersCoffees, setUsersCoffees] = useState<UsersCoffee[]>([]);
   const [currentUser, setCurrentUser] = useState<boolean>(false);
 
   /*
