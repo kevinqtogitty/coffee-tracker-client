@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import CoffeeAccordion from '../components/CoffeeAccordion';
 import Navigation from '../components/Navigation';
 import { auth } from '../firebase/config';
 // import (getAllUsersCoffees) from '../requests/coffeeRequests.ts'
 import { getAllUsersCoffees } from '../requests/coffeeRequests';
+import { UsersCoffee } from '../types/types';
 
 interface HomePageProps {
-  usersCoffees: [];
-  setUsersCoffees: React.Dispatch<React.SetStateAction<[]>>;
+  usersCoffees: UsersCoffee[];
+  setUsersCoffees: React.Dispatch<React.SetStateAction<UsersCoffee[]>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -28,6 +30,7 @@ const HomePage: React.FC<HomePageProps> = ({
   return (
     <section className="home-page">
       <Navigation setCurrentUser={setCurrentUser} />
+      <CoffeeAccordion usersCoffees={usersCoffees} />
     </section>
   );
 };
