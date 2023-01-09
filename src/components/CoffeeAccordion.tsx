@@ -1,13 +1,22 @@
 import React from 'react';
 import * as Accordion from '@radix-ui/react-accordion';
-import { UsersCoffee } from '../types/types';
+import { Origins, Processes, RoastLevels, UsersCoffee } from '../types/types';
 import Dialog from './Dialog';
 
 interface CoffeeAccordionProps {
   usersCoffees: UsersCoffee[];
+  origins: Origins[];
+  processes: Processes[];
+  roastLevels: RoastLevels[];
+  fetchUsersCoffeeData: (userId: string) => Promise<void>;
 }
-const CoffeeAccordion: React.FC<CoffeeAccordionProps> = ({ usersCoffees }) => {
-  //   console.log(usersCoffees);
+const CoffeeAccordion: React.FC<CoffeeAccordionProps> = ({
+  usersCoffees,
+  origins,
+  processes,
+  roastLevels,
+  fetchUsersCoffeeData
+}) => {
   return (
     <section className="home-section">
       <Accordion.Root
@@ -46,7 +55,13 @@ const CoffeeAccordion: React.FC<CoffeeAccordionProps> = ({ usersCoffees }) => {
                     nisi voluptate. Corrupti aspernatur voluptates consectetur
                     rem dicta. Nam pariatur fugiat et voluptatibus.
                   </p>
-                  <Dialog coffee={coffee} />
+                  <Dialog
+                    coffee={coffee}
+                    processes={processes}
+                    origins={origins}
+                    roastLevels={roastLevels}
+                    fetchUsersCoffeeData={fetchUsersCoffeeData}
+                  />
                 </div>
               </div>
             </Accordion.Content>
