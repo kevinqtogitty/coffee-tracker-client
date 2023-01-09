@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { UsersCoffee } from '../types/types';
 
 const getAllUsersCoffees = async (userId: string) => {
-  console.log('here');
   try {
     const { data } = await axios.get(
       `${import.meta.env.VITE_BASE_URL}/coffee/${userId}`
@@ -24,4 +24,16 @@ const addCoffee = async (userId: string) => {
   }
 };
 
-export { getAllUsersCoffees, addCoffee };
+const updateCoffee = async (coffeeId: number, updateCoffeeObj: any) => {
+  try {
+    const { data } = await axios.put(
+      `${import.meta.env.VITE_BASE_URL}/coffee/${coffeeId}`,
+      updateCoffeeObj
+    );
+    return data;
+  } catch (error) {
+    console.log('error is in axios request', error);
+  }
+};
+
+export { getAllUsersCoffees, addCoffee, updateCoffee };
