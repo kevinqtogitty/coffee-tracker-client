@@ -1,13 +1,23 @@
 import React from 'react';
 import * as RadixDialog from '@radix-ui/react-dialog';
 import EditCoffeeForm from './forms/EditCoffeeForm';
-import { UsersCoffee } from '../types/types';
+import { Origins, Processes, RoastLevels, UsersCoffee } from '../types/types';
 
 interface DialogProps {
   coffee: UsersCoffee;
+  origins: Origins[];
+  processes: Processes[];
+  roastLevels: RoastLevels[];
+  fetchUsersCoffeeData: (userId: string) => Promise<void>;
 }
 
-const Dialog: React.FC<DialogProps> = ({ coffee }) => {
+const Dialog: React.FC<DialogProps> = ({
+  coffee,
+  processes,
+  origins,
+  roastLevels,
+  fetchUsersCoffeeData
+}) => {
   return (
     <RadixDialog.Root>
       <RadixDialog.Trigger className="dialog-trigger">Edit</RadixDialog.Trigger>
@@ -21,7 +31,13 @@ const Dialog: React.FC<DialogProps> = ({ coffee }) => {
           <RadixDialog.Description className="dialog-description">
             Make changes to your coffee here. Click save when you're done.
           </RadixDialog.Description>
-          <EditCoffeeForm coffee={coffee} />
+          <EditCoffeeForm
+            coffee={coffee}
+            processes={processes}
+            origins={origins}
+            roastLevels={roastLevels}
+            fetchUsersCoffeeData={fetchUsersCoffeeData}
+          />
         </RadixDialog.Content>
       </RadixDialog.Portal>
     </RadixDialog.Root>
