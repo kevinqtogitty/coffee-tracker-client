@@ -6,8 +6,9 @@ export interface User {
 }
 
 export interface UsersCoffee {
+  id?: number;
   name: string;
-  price: number;
+  price: string;
   roastLevel: string;
   process: string;
   roaster: string;
@@ -15,4 +16,24 @@ export interface UsersCoffee {
   country: string;
   notes: string;
   purchaseDate?: string;
+  farmer: number | null;
+}
+
+export interface Processes {
+  id: number;
+  country?: string;
+  process_name: string;
+  roast_level?: string;
+}
+export interface Origins {
+  id: number;
+  country: string;
+  process_name?: string;
+  roast_level?: string;
+}
+export interface RoastLevels {
+  id: number;
+  roast_level: string;
+  process_name?: string;
+  country?: string;
 }
