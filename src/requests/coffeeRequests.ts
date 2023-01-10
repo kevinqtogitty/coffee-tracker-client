@@ -12,11 +12,11 @@ const getAllUsersCoffees = async (userId: string) => {
   }
 };
 
-const addCoffee = async (userId: string) => {
+const addCoffee = async (userId: string, newCoffee: UsersCoffee) => {
   try {
     const { data } = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/coffee`,
-      userId
+      `${import.meta.env.VITE_BASE_URL}/coffee/${userId}`,
+      newCoffee
     );
     return data;
   } catch (error) {
