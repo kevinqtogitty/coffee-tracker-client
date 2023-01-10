@@ -60,8 +60,18 @@ body {
   /* border: 2px solid red; */
   /* column-gap: 2rem; */
   justify-content: flex-start;
-
+  column-gap: 1rem;
   row-gap: 1rem;
+}
+
+.form-field-container.add-coffee {
+  /* border: 2px solid green; */
+  width: 50%;
+  /* height: fit-content; */
+  flex-wrap: wrap;
+  flex-flow: column wrap;
+  align-content: space-between;
+  height: 28rem;
 }
 
 .form-input-label-container {
@@ -76,7 +86,8 @@ body {
 
 .home-page,
 .login-page,
-.add-coffee-page {
+.add-coffee-page,
+.account-settings-page {
   min-height: 100vh;
   height: 100%;
   width: 100%;
@@ -266,9 +277,24 @@ body {
   /* border: 2px solid blue; */
 }
 
+.edit-coffee-form.add-coffee {
+  border: 2px solid red;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  /* height: 100%; */
+  margin-top: 0rem;
+}
+
 .edit-coffee-fieldset {
   display: flex;
   flex-direction: column;
+}
+
+.edit-coffee-input.text-area {
+  height: 5rem;
+  width: 15rem;
+  max-width: 20rem;
 }
 
 .edit-coffee-fieldset {
