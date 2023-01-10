@@ -6,9 +6,11 @@ import {
   useNavigate
 } from 'react-router-dom';
 import { auth } from './firebase/config';
+import AccountSettings from './pages/AccountSettings';
 import AddNewCoffeePage from './pages/AddNewCoffeePage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import { getAllUsersCoffees } from './requests/coffeeRequests';
 import { Origins, Processes, RoastLevels, UsersCoffee } from './types/types';
 
 import { AuthRoutes } from './utils/AuthRoute';
@@ -34,10 +36,20 @@ function App() {
       console.log('user is not logged in');
     }
   });
+
+  const fetchUsersCoffeeData = async (userId: string) => {
+    const data = await getAllUsersCoffees(userId);
+    setUsersCoffees(data);
+  };
+
   return (
     <Router>
       <Routes>
         <Route element={<AuthRoutes />}>
+          <Route
+            element={<AccountSettings setCurrentUsers={setCurrentUser} />}
+            path="/account"
+          ></Route>
           <Route
             element={
               <HomePage
@@ -50,12 +62,21 @@ function App() {
                 setCurrentUser={setCurrentUser}
                 setOrigins={setOrigins}
                 setProcesses={setProcesses}
+                fetchUsersCoffeeData={fetchUsersCoffeeData}
               />
             }
             path="/home"
           />
           <Route
-            element={<AddNewCoffeePage setCurrentUser={setCurrentUser} />}
+            element={
+              <AddNewCoffeePage
+                origins={origins}
+                processes={processes}
+                roastLevels={roastLevels}
+                fetchUsersCoffeeData={fetchUsersCoffeeData}
+                setCurrentUser={setCurrentUser}
+              />
+            }
             path="/addNewCoffee"
           />
         </Route>
