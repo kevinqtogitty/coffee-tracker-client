@@ -10,6 +10,7 @@ import {
 } from '../../types/types';
 
 import { auth } from '../../firebase/config';
+import { findOptionId, convertToBoolean } from '../../helpers/helpers';
 
 interface EditCoffeeFormProps {
   coffee: UsersCoffee;
@@ -47,49 +48,63 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
   });
 
   const logData = (data: UsersCoffee) => {
-    const converToBoolean = (choice: string | boolean): boolean => {
-      return choice === 'true' ? true : false;
-    };
-
-    const findOptionId = (option: string | number, caseId: string) => {
-      let optionFound;
-      switch (caseId) {
-        case 'roast':
-          optionFound = roastLevels.find((el) => el.roast_level === option);
-          break;
-        case 'process':
-          optionFound = processes.find((el) => el.process_name === option);
-          break;
-        case 'origin':
-          optionFound = origins.find((el) => el.country === option);
-          break;
-        default:
-          break;
-      }
-      return optionFound.id;
-    };
-
     const updatedCoffee = {
       id: coffee.id,
       name: coffee.name === data.name ? coffee.name : data.name,
       price: coffee.price === data.price ? coffee.price : data.price,
       roastLevel:
         coffee.roastLevel === data.roastLevel
-          ? findOptionId(coffee.roastLevel, 'roast')
-          : findOptionId(data.roastLevel, 'roast'),
+          ? findOptionId(
+              coffee.roastLevel,
+              'roast',
+              roastLevels,
+              processes,
+              origins
+            )
+          : findOptionId(
+              data.roastLevel,
+              'roast',
+              roastLevels,
+              processes,
+              origins
+            ),
       process:
         coffee.process === data.process
-          ? findOptionId(coffee.process, 'process')
-          : findOptionId(data.process, 'process'),
+          ? findOptionId(
+              coffee.process,
+              'process',
+              roastLevels,
+              processes,
+              origins
+            )
+          : findOptionId(
+              data.process,
+              'process',
+              roastLevels,
+              processes,
+              origins
+            ),
       roaster: coffee.roaster === data.roaster ? coffee.roaster : data.roaster,
       singleOrigin:
-        coffee.singleOrigin === converToBoolean(data.singleOrigin)
+        coffee.singleOrigin === convertToBoolean(data.singleOrigin)
           ? coffee.singleOrigin
-          : converToBoolean(data.singleOrigin),
+          : convertToBoolean(data.singleOrigin),
       country:
         coffee.country === data.country
-          ? findOptionId(coffee.country, 'origin')
-          : findOptionId(data.country, 'origin'),
+          ? findOptionId(
+              coffee.country,
+              'origin',
+              roastLevels,
+              processes,
+              origins
+            )
+          : findOptionId(
+              data.country,
+              'origin',
+              roastLevels,
+              processes,
+              origins
+            ),
       notes: coffee.notes === data.notes ? coffee.notes : data.notes,
       purchaseDate:
         coffee.purchaseDate === data.purchaseDate ? coffee.notes : data.notes,
@@ -265,9 +280,11 @@ interface SelectProps {
   }>;
 }
 
-const SelectField: React.FC<SelectProps> = ({ options, option, register }) => {
-  // console.log(options);
-
+export const SelectField: React.FC<SelectProps> = ({
+  options,
+  option,
+  register
+}) => {
   return (
     <select
       {...(option === 'process'
