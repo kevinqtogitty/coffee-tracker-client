@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import CoffeeAccordion from '../components/CoffeeAccordion';
 import Navigation from '../components/Navigation';
 import { auth } from '../firebase/config';
-// import (getAllUsersCoffees) from '../requests/coffeeRequests.ts'
 import { getAllUsersCoffees } from '../requests/coffeeRequests';
 import { getAllOrigins } from '../requests/originRequests';
 import { getAllProcesses } from '../requests/processesrequests';
@@ -18,6 +17,7 @@ interface HomePageProps {
   setUsersCoffees: React.Dispatch<React.SetStateAction<UsersCoffee[]>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<boolean>>;
   setRoastLevels: React.Dispatch<React.SetStateAction<RoastLevels[]>>;
+  fetchUsersCoffeeData: (userId: string) => Promise<void>;
   roastLevels: RoastLevels[];
 }
 
@@ -30,13 +30,9 @@ const HomePage: React.FC<HomePageProps> = ({
   processes,
   origins,
   roastLevels,
-  setRoastLevels
+  setRoastLevels,
+  fetchUsersCoffeeData
 }) => {
-  const fetchUsersCoffeeData = async (userId: string) => {
-    const data = await getAllUsersCoffees(userId);
-    setUsersCoffees(data);
-  };
-
   const fetchFormFields = async () => {
     const origins = await getAllOrigins();
     const processes = await getAllProcesses();
