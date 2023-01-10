@@ -1,20 +1,32 @@
 import React, { useEffect, useState } from 'react';
+import AddNewCoffeeForm from '../components/forms/AddNewCoffeeForm';
 import Navigation from '../components/Navigation';
-import { auth } from '../firebase/config';
-import { getAllOrigins } from '../requests/originRequests';
-import { getAllProcesses } from '../requests/processesrequests';
+import { Origins, Processes, RoastLevels } from '../types/types';
 
-interface AddNewCoffeePageProps {
-  setCurrentUser: React.Dispatch<React.SetStateAction<boolean>>;
+export interface AddNewCoffeePageProps {
+  processes: Processes[];
+  origins: Origins[];
+  roastLevels: RoastLevels[];
+  fetchUsersCoffeeData: (userId: string) => Promise<void>;
+  setCurrentUser?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddNewCoffeePage: React.FC<AddNewCoffeePageProps> = ({
-  setCurrentUser
+  setCurrentUser,
+  processes,
+  origins,
+  roastLevels,
+  fetchUsersCoffeeData
 }) => {
   return (
     <section className="add-coffee-page">
-      <Navigation setCurrentUser={setCurrentUser} />
-      AddNewCoffeePage
+      <Navigation setCurrentUser={setCurrentUser!} />
+      <AddNewCoffeeForm
+        origins={origins}
+        processes={processes}
+        roastLevels={roastLevels}
+        fetchUsersCoffeeData={fetchUsersCoffeeData}
+      />
     </section>
   );
 };
