@@ -8,14 +8,14 @@ export interface User {
 export interface UsersCoffee {
   id?: number;
   name: string;
-  price: string;
-  roastLevel: string;
-  process: string;
+  price: string | number;
+  roastLevel: string | number;
+  process: string | number;
   roaster: string;
   singleOrigin: boolean | string;
-  country: string;
+  country: string | number;
   notes: string;
-  purchaseDate?: string;
+  purchaseDate?: string | null;
   farmer: number | null;
 }
 
