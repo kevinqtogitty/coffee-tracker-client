@@ -6,7 +6,13 @@ import { getAllUsersCoffees } from '../requests/coffeeRequests';
 import { getAllOrigins } from '../requests/originRequests';
 import { getAllProcesses } from '../requests/processesrequests';
 import { getAllRoastLevels } from '../requests/roastLevelRequests';
-import { Origins, Processes, RoastLevels, UsersCoffee } from '../types/types';
+import {
+  Origins,
+  Processes,
+  RoastLevels,
+  User,
+  UsersCoffee
+} from '../types/types';
 
 interface HomePageProps {
   usersCoffees: UsersCoffee[];
@@ -15,46 +21,52 @@ interface HomePageProps {
   setProcesses: React.Dispatch<React.SetStateAction<Processes[]>>;
   setOrigins: React.Dispatch<React.SetStateAction<Origins[]>>;
   setUsersCoffees: React.Dispatch<React.SetStateAction<UsersCoffee[]>>;
-  setCurrentUser: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentUserLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   setRoastLevels: React.Dispatch<React.SetStateAction<RoastLevels[]>>;
   fetchUsersCoffeeData: (userId: string) => Promise<void>;
+  fetchCurrentUserInfo: (userId: string) => Promise<void>;
   roastLevels: RoastLevels[];
+  currentUserInfo?: User;
+  setCurrentUserInfo: React.Dispatch<React.SetStateAction<User | undefined>>;
 }
 
 const HomePage: React.FC<HomePageProps> = ({
   usersCoffees,
-  setUsersCoffees,
-  setCurrentUser,
+  setCurrentUserLoggedIn,
   setProcesses,
   setOrigins,
   processes,
   origins,
   roastLevels,
   setRoastLevels,
-  fetchUsersCoffeeData
+  fetchUsersCoffeeData,
+  fetchCurrentUserInfo
 }) => {
   const fetchFormFields = async () => {
-    const origins = await getAllOrigins();
-    const processes = await getAllProcesses();
-    const roastLevels = await getAllRoastLevels();
+    const [origins, processes, roastLevels] = await Promise.all([
+      getAllOrigins(),
+      getAllProcesses(),
+      getAllRoastLevels()
+    ]);
     setOrigins(origins);
     setProcesses(processes);
     setRoastLevels(roastLevels);
   };
 
+  // Fetch coffee and user data
   if (auth.currentUser && usersCoffees.length === 0) {
-    console.log('fetching users coffeers');
     fetchUsersCoffeeData(auth.currentUser.uid);
+    fetchCurrentUserInfo(auth.currentUser.uid);
   }
 
+  // Fetch form fields for editing coffees
   if (auth.currentUser && processes.length === 0) {
-    console.log('fetching form fields');
     fetchFormFields();
   }
 
   return (
     <section className="home-page">
-      <Navigation setCurrentUser={setCurrentUser} />
+      <Navigation setCurrentUserLoggedIn={setCurrentUserLoggedIn} />
       <CoffeeAccordion
         usersCoffees={usersCoffees}
         origins={origins}
