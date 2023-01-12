@@ -8,11 +8,11 @@ export interface AddNewCoffeePageProps {
   origins: Origins[];
   roastLevels: RoastLevels[];
   fetchUsersCoffeeData: (userId: string) => Promise<void>;
-  setCurrentUser?: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentUserLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddNewCoffeePage: React.FC<AddNewCoffeePageProps> = ({
-  setCurrentUser,
+  setCurrentUserLoggedIn,
   processes,
   origins,
   roastLevels,
@@ -20,7 +20,7 @@ const AddNewCoffeePage: React.FC<AddNewCoffeePageProps> = ({
 }) => {
   return (
     <section className="add-coffee-page">
-      <Navigation setCurrentUser={setCurrentUser!} />
+      <Navigation setCurrentUserLoggedIn={setCurrentUserLoggedIn!} />
       <AddNewCoffeeForm
         origins={origins}
         processes={processes}
