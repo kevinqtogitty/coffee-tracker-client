@@ -4,18 +4,18 @@ import Form from '../components/forms/UserLoginForm';
 import { auth } from '../firebase/config';
 
 interface Props {
-  currentUser: boolean;
+  currentUserLoggedIn: boolean;
 }
 
-const LoginPage: React.FC<Props> = ({ currentUser }) => {
+const LoginPage: React.FC<Props> = ({ currentUserLoggedIn }) => {
   const navigate = useNavigate();
   useEffect(() => {
-    if (currentUser) {
+    if (currentUserLoggedIn) {
       navigate('/home');
     } else {
       navigate('/');
     }
-  }, [currentUser]);
+  }, [currentUserLoggedIn]);
 
   return (
     <section className="login-page">
