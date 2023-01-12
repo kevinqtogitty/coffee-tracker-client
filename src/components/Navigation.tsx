@@ -6,15 +6,15 @@ import { auth } from '../firebase/config';
 import { signOut } from 'firebase/auth';
 
 interface Props {
-  setCurrentUser: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentUserLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Navigation: React.FC<Props> = ({ setCurrentUser }) => {
+const Navigation: React.FC<Props> = ({ setCurrentUserLoggedIn }) => {
   const navigate = useNavigate();
   const signOutUser = async () => {
     try {
       await signOut(auth);
-      setCurrentUser(false);
+      setCurrentUserLoggedIn(false);
       navigate('/');
     } catch (error) {
       return errorHandler(error);
