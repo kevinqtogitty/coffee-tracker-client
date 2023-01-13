@@ -313,6 +313,19 @@ body {
   background-color: #fff;
 }
 
+/* Account Settings  */
+
+.account-settings-page {
+}
+
+.account-info-container {
+  border: 2px solid red;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Animations */
 
 @keyframes slide-down {
