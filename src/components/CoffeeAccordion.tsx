@@ -2,6 +2,7 @@ import React from 'react';
 import * as Accordion from '@radix-ui/react-accordion';
 import { Origins, Processes, RoastLevels, UsersCoffee } from '../types/types';
 import Dialog from './Dialog';
+import EditCoffeeForm from './forms/EditCoffeeForm';
 
 interface CoffeeAccordionProps {
   usersCoffees: UsersCoffee[];
@@ -61,6 +62,8 @@ const CoffeeAccordion: React.FC<CoffeeAccordionProps> = ({
                     origins={origins}
                     roastLevels={roastLevels}
                     fetchUsersCoffeeData={fetchUsersCoffeeData}
+                    formKey={1}
+                    EditCoffeeForm={EditCoffeeForm}
                   />
                 </div>
               </div>
