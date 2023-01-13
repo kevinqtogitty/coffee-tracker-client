@@ -12,7 +12,7 @@ import {
 import { auth } from '../../firebase/config';
 import { findOptionId, convertToBoolean } from '../../helpers/helpers';
 
-interface EditCoffeeFormProps {
+export interface EditCoffeeFormProps {
   coffee: UsersCoffee;
   processes: Processes[];
   origins: Origins[];
