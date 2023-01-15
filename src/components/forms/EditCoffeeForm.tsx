@@ -13,11 +13,11 @@ import { auth } from '../../firebase/config';
 import { findOptionId, convertToBoolean } from '../../helpers/helpers';
 
 export interface EditCoffeeFormProps {
-  coffee: UsersCoffee;
-  processes: Processes[];
-  origins: Origins[];
-  roastLevels: RoastLevels[];
-  fetchUsersCoffeeData: (userId: string) => Promise<void>;
+  coffee?: UsersCoffee;
+  processes?: Processes[];
+  origins?: Origins[];
+  roastLevels?: RoastLevels[];
+  fetchUsersCoffeeData?: (userId: string) => Promise<void>;
 }
 
 const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
@@ -28,15 +28,16 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
   fetchUsersCoffeeData
 }) => {
   const resetValues = {
-    name: coffee.name,
-    price: coffee.price,
-    roastLevel: coffee.roastLevel,
-    process: coffee.process,
-    roaster: coffee.roaster,
-    singleOrigin: coffee.singleOrigin,
-    country: coffee.country,
-    notes: coffee.notes,
-    farmer: null
+    name: coffee!.name,
+    price: coffee!.price,
+    roastLevel: coffee!.roastLevel,
+    process: coffee!.process,
+    roaster: coffee!.roaster,
+    singleOrigin: coffee!.singleOrigin,
+    country: coffee!.country,
+    notes: coffee!.notes,
+    farmer: null,
+    timestamp: ''
   };
 
   const {
@@ -59,13 +60,13 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
 
   const logData = (data: UsersCoffee) => {
     const updatedCoffee = {
-      id: coffee.id,
-      name: coffee.name === data.name ? coffee.name : data.name,
-      price: coffee.price === data.price ? coffee.price : data.price,
+      id: coffee!.id,
+      name: coffee!.name === data.name ? coffee!.name : data.name,
+      price: coffee!.price === data.price ? coffee!.price : data.price,
       roastLevel:
-        coffee.roastLevel === data.roastLevel
+        coffee!.roastLevel === data.roastLevel
           ? findOptionId(
-              coffee.roastLevel,
+              coffee!.roastLevel,
               'roast',
               roastLevels,
               processes,
@@ -79,9 +80,9 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
               origins
             ),
       process:
-        coffee.process === data.process
+        coffee!.process === data.process
           ? findOptionId(
-              coffee.process,
+              coffee!.process,
               'process',
               roastLevels,
               processes,
@@ -94,15 +95,16 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
               processes,
               origins
             ),
-      roaster: coffee.roaster === data.roaster ? coffee.roaster : data.roaster,
+      roaster:
+        coffee!.roaster === data.roaster ? coffee!.roaster : data.roaster,
       singleOrigin:
-        coffee.singleOrigin === convertToBoolean(data.singleOrigin)
-          ? coffee.singleOrigin
+        coffee!.singleOrigin === convertToBoolean(data.singleOrigin)
+          ? coffee!.singleOrigin
           : convertToBoolean(data.singleOrigin),
       country:
-        coffee.country === data.country
+        coffee!.country === data.country
           ? findOptionId(
-              coffee.country,
+              coffee!.country,
               'origin',
               roastLevels,
               processes,
@@ -115,12 +117,12 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
               processes,
               origins
             ),
-      notes: coffee.notes === data.notes ? coffee.notes : data.notes,
+      notes: coffee!.notes === data.notes ? coffee!.notes : data.notes,
       farmer: null
     };
 
-    updateCoffee(coffee.id!, updatedCoffee).then(() =>
-      fetchUsersCoffeeData(auth.currentUser!.uid)
+    updateCoffee(coffee!.id!, updatedCoffee).then(() =>
+      fetchUsersCoffeeData!(auth.currentUser!.uid)
     );
   };
 
@@ -144,7 +146,7 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
                 message: 'Max length is 50 chars'
               }
             })}
-            defaultValue={coffee.name}
+            defaultValue={coffee!.name}
           />
           <span className="form-error-span">{errors.name?.message}</span>
         </div>
@@ -162,7 +164,7 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
                 message: 'Max length is 50 chars'
               }
             })}
-            defaultValue={coffee.roaster}
+            defaultValue={coffee!.roaster}
           />
           <span className="form-error-span">{errors.roaster?.message}</span>
         </div>
@@ -177,7 +179,7 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
               required: 'This is required',
               maxLength: { value: 5, message: 'Maximum chars is 5' }
             })}
-            defaultValue={coffee.price}
+            defaultValue={coffee!.price}
           />
           <span className="form-error-span">{errors.price?.message}</span>
         </div>
@@ -220,7 +222,7 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
           </Label>
           <SelectField
             option={'roastLevels'}
-            options={roastLevels}
+            options={roastLevels!}
             register={register}
           />
           <span className="form-error-span">{errors.roastLevel?.message}</span>
@@ -232,7 +234,7 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
           </Label>
           <SelectField
             option={'process'}
-            options={processes}
+            options={processes!}
             register={register}
           />
           <span className="form-error-span">{errors.process?.message}</span>
@@ -244,7 +246,7 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
           </Label>
           <SelectField
             option={'country'}
-            options={origins}
+            options={origins!}
             register={register}
           />
         </div>
@@ -259,7 +261,7 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
             {...register('notes', {
               maxLength: { value: 500, message: 'Maximum 500 chars' }
             })}
-            defaultValue={coffee.notes}
+            defaultValue={coffee!.notes}
           />
           <span className="form-error-span">{errors.notes?.message}</span>
         </div>
