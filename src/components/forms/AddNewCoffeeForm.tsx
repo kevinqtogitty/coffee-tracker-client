@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { UsersCoffee } from '../../types/types';
 import { AddNewCoffeePageProps } from '../../pages/AddNewCoffeePage';
@@ -14,25 +14,35 @@ const AddNewCoffeeForm: React.FC<AddNewCoffeePageProps> = ({
   roastLevels,
   fetchUsersCoffeeData
 }) => {
+  const resetValues = {
+    name: '',
+    price: 0,
+    roastLevel: '',
+    process: '',
+    roaster: '',
+    singleOrigin: false,
+    country: '',
+    notes: '',
+    farmer: null
+  };
+
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors }
+    reset,
+    formState: { errors, isSubmitSuccessful }
   } = useForm({
     defaultValues: {
-      name: '',
-      price: 0,
-      roastLevel: '',
-      process: '',
-      roaster: '',
-      singleOrigin: false,
-      country: '',
-      notes: '',
-      purchaseDate: '',
-      farmer: null
+      ...resetValues
     }
   });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({ ...resetValues });
+    }
+  }, [isSubmitSuccessful, reset]);
 
   const logData = (data: UsersCoffee) => {
     const newCoffee: UsersCoffee = {
@@ -62,8 +72,8 @@ const AddNewCoffeeForm: React.FC<AddNewCoffeePageProps> = ({
         origins
       ),
       notes: data.notes,
-      purchaseDate: null,
-      farmer: null
+      farmer: null,
+      timestamp: ''
     };
 
     addCoffee(auth.currentUser!.uid, newCoffee).then(() =>
