@@ -18,6 +18,7 @@ export interface UsersCoffee {
   notes: string;
   purchaseDate?: string | null;
   farmer: number | null;
+  timestamp: string;
 }
 
 export interface Processes {
