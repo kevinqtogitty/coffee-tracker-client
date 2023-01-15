@@ -43,23 +43,21 @@ const deleteUser = async (userId: number) => {
 };
 
 const updateUser = async (
-  userId: number,
+  userId: string,
   type: string,
-  userUpdateInfo: User
+  userUpdateInfo?: User
 ) => {
   try {
-    if (type === 'email' || type === 'firstName' || type === 'lastName') {
+    if (type === 'email' || type === 'name') {
       const { data } = await axios.put(
         `${import.meta.env.VITE_BASE_URL}/user/${userId}`,
         userUpdateInfo
       );
       if (type === 'email')
-        await updateEmail(auth.currentUser!, userUpdateInfo.email);
+        await updateEmail(auth.currentUser!, userUpdateInfo!.email);
       return data;
-    } else if (type === 'password') {
-      await updatePassword(auth.currentUser!, userUpdateInfo.password!);
     } else if (type === 'forgotPassword') {
-      await sendPasswordResetEmail(auth, userUpdateInfo.email);
+      await sendPasswordResetEmail(auth, userUpdateInfo!.email);
     }
   } catch (error) {
     console.log(error);
