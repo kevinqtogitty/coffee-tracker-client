@@ -1,5 +1,5 @@
 import { Label } from '@radix-ui/react-label';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, UseFormRegister } from 'react-hook-form';
 import { updateCoffee } from '../../requests/coffeeRequests';
 import {
@@ -27,25 +27,35 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
   roastLevels,
   fetchUsersCoffeeData
 }) => {
+  const resetValues = {
+    name: coffee.name,
+    price: coffee.price,
+    roastLevel: coffee.roastLevel,
+    process: coffee.process,
+    roaster: coffee.roaster,
+    singleOrigin: coffee.singleOrigin,
+    country: coffee.country,
+    notes: coffee.notes,
+    farmer: null
+  };
+
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors }
+    reset,
+    formState: { errors, isSubmitSuccessful }
   } = useForm({
     defaultValues: {
-      name: coffee.name,
-      price: coffee.price,
-      roastLevel: coffee.roastLevel,
-      process: coffee.process,
-      roaster: coffee.roaster,
-      singleOrigin: coffee.singleOrigin,
-      country: coffee.country,
-      notes: coffee.notes,
-      purchaseDate: coffee.purchaseDate,
-      farmer: null
+      ...resetValues
     }
   });
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({ ...resetValues });
+    }
+  }, [isSubmitSuccessful, reset]);
 
   const logData = (data: UsersCoffee) => {
     const updatedCoffee = {
@@ -106,8 +116,6 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
               origins
             ),
       notes: coffee.notes === data.notes ? coffee.notes : data.notes,
-      purchaseDate:
-        coffee.purchaseDate === data.purchaseDate ? coffee.notes : data.notes,
       farmer: null
     };
 
@@ -257,7 +265,9 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
         </div>
       </div>
 
-      <button type="submit">Save</button>
+      <button type="submit" className="form-save-button">
+        Save
+      </button>
     </form>
   );
 };
