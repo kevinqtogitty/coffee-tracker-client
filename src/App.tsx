@@ -77,8 +77,11 @@ function App() {
     processes: processes,
     roastLevels: roastLevels,
     fetchUsersCoffeeData: fetchUsersCoffeeData,
-    setCurrentUserLoggedIn: setCurrentUserLoggedIn
+    setCurrentUserLoggedIn: setCurrentUserLoggedIn,
+    fetchCurrentUserInfo: fetchCurrentUserInfo
   };
+
+  console.log(currentUserInfo);
 
   return (
     <Router>
@@ -89,6 +92,7 @@ function App() {
               <AccountSettings
                 setCurrentUserLoggedIn={setCurrentUserLoggedIn}
                 currentUserInfo={currentUserInfo}
+                fetchCurrentUserInfo={fetchCurrentUserInfo}
               />
             }
             path="/account"
