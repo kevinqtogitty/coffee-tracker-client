@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import CoffeeAccordion from '../components/CoffeeAccordion';
+import UsersCoffeeDisplayed from '../components/UsersCoffeeDisplayed';
 import Navigation from '../components/Navigation';
 import { auth } from '../firebase/config';
 import { getAllUsersCoffees } from '../requests/coffeeRequests';
@@ -40,7 +40,9 @@ const HomePage: React.FC<HomePageProps> = ({
   roastLevels,
   setRoastLevels,
   fetchUsersCoffeeData,
-  fetchCurrentUserInfo
+  fetchCurrentUserInfo,
+  currentUserInfo,
+  setUsersCoffees
 }) => {
   const fetchFormFields = async () => {
     const [origins, processes, roastLevels] = await Promise.all([
@@ -64,16 +66,20 @@ const HomePage: React.FC<HomePageProps> = ({
     fetchFormFields();
   }
 
+  const coffeeDisplayProps = {
+    usersCoffees: usersCoffees,
+    origins: origins,
+    processes: processes,
+    roastLevels: roastLevels,
+    fetchUsersCoffeeData: fetchUsersCoffeeData,
+    currentUserInfo: currentUserInfo,
+    setUsersCoffees: setUsersCoffees
+  };
+
   return (
     <section className="home-page">
       <Navigation setCurrentUserLoggedIn={setCurrentUserLoggedIn} />
-      <CoffeeAccordion
-        usersCoffees={usersCoffees}
-        origins={origins}
-        processes={processes}
-        roastLevels={roastLevels}
-        fetchUsersCoffeeData={fetchUsersCoffeeData}
-      />
+      <UsersCoffeeDisplayed {...coffeeDisplayProps} />
     </section>
   );
 };
