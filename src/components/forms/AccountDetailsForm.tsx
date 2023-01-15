@@ -3,23 +3,41 @@ import { ColumnSpacingIcon } from '@radix-ui/react-icons';
 import { setLogLevel } from 'firebase/app';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { BarLoader } from 'react-spinners';
 import { auth } from '../../firebase/config';
+import { isValidEmail } from '../../helpers/helpers';
 import { updateUser } from '../../requests/userRequests';
 
 export interface AccountDetailsFormProps {
   currentUserInfo: any;
+  error: {
+    name: string;
+    message: string;
+  };
+  setError: React.Dispatch<
+    React.SetStateAction<{
+      name: string;
+      message: string;
+    }>
+  >;
   fetchCurrentUserInfo: (userId: string) => Promise<void>;
+  isError: boolean;
+  setIsError: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AccountDetailsForm: React.FC<AccountDetailsFormProps> = ({
   currentUserInfo,
-  fetchCurrentUserInfo
+  fetchCurrentUserInfo,
+  error,
+  setError,
+  isError,
+  setIsError
 }) => {
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors }
+    formState: { errors, isSubmitSuccessful, isSubmitting }
   } = useForm({
     defaultValues: {
       firstName: currentUserInfo.first_name,
@@ -27,11 +45,13 @@ const AccountDetailsForm: React.FC<AccountDetailsFormProps> = ({
       email: currentUserInfo.email
     }
   });
+
+  // console.log(isSubmitSuccessful);
   const submitData = async (data: any) => {
     try {
-      if (auth.currentUser?.email != data.email) {
+      if (currentUserInfo.email != data.email && isValidEmail(data.email)) {
         await updateUser(auth.currentUser?.uid!, 'email', data);
-        fetchCurrentUserInfo(auth.currentUser?.uid!);
+        await fetchCurrentUserInfo(auth.currentUser?.uid!);
       } else if (
         data.firstName != currentUserInfo.first_name ||
         data.lastName != currentUserInfo.last_name
@@ -41,37 +61,57 @@ const AccountDetailsForm: React.FC<AccountDetailsFormProps> = ({
       } else {
         console.log('No changes made');
       }
+
+      if (auth.currentUser?.email === currentUserInfo.email) {
+        setError({
+          name: 'Email unchanged',
+          message: 'Email to change to was the same'
+        });
+        setIsError(true);
+        throw new Error('Email has not changed');
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
-  // console.log(fetchCurrentUserInfo);
 
   return (
     <form
       className="account-details-form"
       onSubmit={handleSubmit((data) => submitData(data))}
     >
-      <div className="account-form-input-container">
-        <div className="form-input-label-container">
-          <label htmlFor="">First name:</label>
-          <input type="text" {...register('firstName')} />
+      {isSubmitting ? (
+        <BarLoader
+          className="loader"
+          aria-label="Loading Spinner"
+          color={'#645caa'}
+        />
+      ) : isSubmitSuccessful && !isError ? (
+        <span className="form-success-notification">Success!</span>
+      ) : (
+        <div className="account-form-input-container">
+          <div className="form-input-label-container">
+            <label htmlFor="">First name:</label>
+            <input type="text" {...register('firstName')} />
+          </div>
+          <div className="form-input-label-container">
+            <label htmlFor="">Last name:</label>
+            <input type="text" {...register('lastName')} />
+          </div>
+          <div className="form-input-label-container">
+            <label htmlFor="">Email:</label>
+            <input type="email" {...register('email')} />
+          </div>
         </div>
-        <div className="form-input-label-container">
-          <label htmlFor="">Last name:</label>
-          <input type="text" {...register('lastName')} />
-        </div>
-        <div className="form-input-label-container">
-          <label htmlFor="">Email:</label>
-          <input type="email" {...register('email')} />
-        </div>
-      </div>
-      {/* <Close asChild> */}
-      <button className="form-save-button" type="submit">
-        Save
-      </button>
-      {/* </Close> */}
+      )}
+
+      {isSubmitting ? null : isSubmitSuccessful && !isError ? (
+        <Close className="form-save-button">Close</Close>
+      ) : (
+        <button className="form-save-button" type="submit">
+          Save
+        </button>
+      )}
     </form>
   );
 };
