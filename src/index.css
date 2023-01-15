@@ -25,13 +25,13 @@ body {
 /* Radix Tab component*/
 
 .tabs-root {
-  border: 2px solid red;
+  /* border: 2px solid red; */
   width: 20rem;
 }
 
 .tabs-list {
   display: flex;
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   justify-content: space-around;
   /* width: fit-content; */
 }
@@ -44,7 +44,7 @@ body {
 
 .sign-up-form,
 .sign-in-form {
-  border: 2px solid green;
+  /* border: 2px solid green; */
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
@@ -90,7 +90,7 @@ body {
 }
 
 .form-error-span {
-  color: red;
+  /* color: red; */
 }
 
 .home-page,
@@ -100,7 +100,7 @@ body {
   min-height: 100vh;
   height: 100%;
   width: 100%;
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   position: relative;
   display: flex;
 }
@@ -113,7 +113,7 @@ body {
 /* Navigation */
 .side-bar {
   /* height: 100%; */
-  border: 2px solid red;
+  /* border: 2px solid red; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -121,7 +121,7 @@ body {
 }
 
 .nav-root {
-  border: 2px solid blue;
+  /* border: 2px solid blue; */
   /* height: 100%; */
 }
 
@@ -442,6 +442,17 @@ body {
   color: #fff;
 }
 
+/* Notifications */
+.form-success-notification {
+  color: green;
+  font-weight: 800;
+  font-size: 2rem;
+}
+
+/* Loader */
+.loader {
+  color: #645caa;
+}
 /* Animations */
 
 @keyframes slide-down {
