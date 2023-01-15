@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as RadixDialog from '@radix-ui/react-dialog';
 import EditCoffeeForm, { EditCoffeeFormProps } from './forms/EditCoffeeForm';
 import { Origins, Processes, RoastLevels, UsersCoffee } from '../types/types';
@@ -13,9 +13,10 @@ interface DialogProps {
   roastLevels?: RoastLevels[];
   fetchUsersCoffeeData?: (userId: string) => Promise<void>;
   EditCoffeeForm?: React.FC<EditCoffeeFormProps>;
-  AccountDetailsForm?: React.F<AccountDetailsFormProps>;
+  AccountDetailsForm?: React.FC<AccountDetailsFormProps>;
   formKey?: number;
   currentUserInfo?: any;
+  fetchCurrentUserInfo?: (userId: string) => Promise<void>;
 }
 
 const Dialog: React.FC<DialogProps> = ({
@@ -26,7 +27,8 @@ const Dialog: React.FC<DialogProps> = ({
   fetchUsersCoffeeData,
   EditCoffeeForm,
   formKey,
-  currentUserInfo
+  currentUserInfo,
+  fetchCurrentUserInfo
 }) => {
   const coffeeProps = {
     coffee: coffee,
@@ -35,10 +37,20 @@ const Dialog: React.FC<DialogProps> = ({
     roastLevels: roastLevels,
     fetchUsersCoffeeData: fetchUsersCoffeeData
   };
-  // console.log(currentUserInfo);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleDialogOpenClose = () => {
+    setDialogOpen((state) => !state);
+  };
+
+  // console.log(fetchCurrentUserInfo);
+
   return (
-    <RadixDialog.Root>
-      <RadixDialog.Trigger className="dialog-trigger">Edit</RadixDialog.Trigger>
+    <RadixDialog.Root onOpenChange={handleDialogOpenClose}>
+      <RadixDialog.Trigger className="dialog-trigger edit">
+        Edit
+      </RadixDialog.Trigger>
       <RadixDialog.Portal className="dialog-portal">
         <RadixDialog.Overlay className="dialog-overlay" />
         <RadixDialog.Content className="dialog-content">
@@ -52,7 +64,10 @@ const Dialog: React.FC<DialogProps> = ({
           {formKey === 1 ? (
             <EditCoffeeForm {...coffeeProps} />
           ) : (
-            <AccountDetailsForm currentUserInfo={currentUserInfo} />
+            <AccountDetailsForm
+              currentUserInfo={currentUserInfo}
+              fetchCurrentUserInfo={fetchCurrentUserInfo!}
+            />
           )}
         </RadixDialog.Content>
       </RadixDialog.Portal>
