@@ -12,7 +12,6 @@ interface DialogProps {
   processes?: Processes[];
   roastLevels?: RoastLevels[];
   fetchUsersCoffeeData?: (userId: string) => Promise<void>;
-  EditCoffeeForm?: React.FC<EditCoffeeFormProps>;
   AccountDetailsForm?: React.FC<AccountDetailsFormProps>;
   formKey?: number;
   currentUserInfo?: any;
@@ -25,7 +24,6 @@ const Dialog: React.FC<DialogProps> = ({
   origins,
   roastLevels,
   fetchUsersCoffeeData,
-  EditCoffeeForm,
   formKey,
   currentUserInfo,
   fetchCurrentUserInfo
@@ -39,12 +37,24 @@ const Dialog: React.FC<DialogProps> = ({
   };
 
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState({
+    name: '',
+    message: ''
+  });
+
+  const accountDetailsFormsProps = {
+    currentUserInfo: currentUserInfo,
+    fetchCurrentUserInfo: fetchCurrentUserInfo!,
+    error: error,
+    setError: setError,
+    setIsError,
+    isError
+  };
 
   const handleDialogOpenClose = () => {
     setDialogOpen((state) => !state);
   };
-
-  // console.log(fetchCurrentUserInfo);
 
   return (
     <RadixDialog.Root onOpenChange={handleDialogOpenClose}>
@@ -61,13 +71,17 @@ const Dialog: React.FC<DialogProps> = ({
           <RadixDialog.Description className="dialog-description">
             Make changes here. Click save when you're done.
           </RadixDialog.Description>
+          {isError ? (
+            <div className="dialog-error">
+              {error.name}
+              <br />
+              {error.message}
+            </div>
+          ) : null}
           {formKey === 1 ? (
             <EditCoffeeForm {...coffeeProps} />
           ) : (
-            <AccountDetailsForm
-              currentUserInfo={currentUserInfo}
-              fetchCurrentUserInfo={fetchCurrentUserInfo!}
-            />
+            <AccountDetailsForm {...accountDetailsFormsProps} />
           )}
         </RadixDialog.Content>
       </RadixDialog.Portal>
