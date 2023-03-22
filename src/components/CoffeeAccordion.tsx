@@ -40,12 +40,7 @@ const CoffeeAccordion: React.FC<UsersCoffeeDisplayedProps> = ({
                 <p className="accordion-p">Roast Level: {coffee.roastLevel}</p>
               </div>
               <div className="accordion-content-right">
-                <p className="accordion-p notes">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Provident velit, accusantium quae sunt amet neque ad facilis
-                  nisi voluptate. Corrupti aspernatur voluptates consectetur rem
-                  dicta. Nam pariatur fugiat et voluptatibus.
-                </p>
+                <p className="accordion-p notes">{coffee.notes}</p>
                 <Dialog
                   coffee={coffee}
                   processes={processes}
