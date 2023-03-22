@@ -68,32 +68,32 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
           ? findOptionId(
               coffee!.roastLevel,
               'roast',
-              roastLevels,
-              processes,
-              origins
+              roastLevels!,
+              processes!,
+              origins!
             )
           : findOptionId(
               data.roastLevel,
               'roast',
-              roastLevels,
-              processes,
-              origins
+              roastLevels!,
+              processes!,
+              origins!
             ),
       process:
         coffee!.process === data.process
           ? findOptionId(
               coffee!.process,
               'process',
-              roastLevels,
-              processes,
-              origins
+              roastLevels!,
+              processes!,
+              origins!
             )
           : findOptionId(
               data.process,
               'process',
-              roastLevels,
-              processes,
-              origins
+              roastLevels!,
+              processes!,
+              origins!
             ),
       roaster:
         coffee!.roaster === data.roaster ? coffee!.roaster : data.roaster,
@@ -106,16 +106,16 @@ const EditCoffeeForm: React.FC<EditCoffeeFormProps> = ({
           ? findOptionId(
               coffee!.country,
               'origin',
-              roastLevels,
-              processes,
-              origins
+              roastLevels!,
+              processes!,
+              origins!
             )
           : findOptionId(
               data.country,
               'origin',
-              roastLevels,
-              processes,
-              origins
+              roastLevels!,
+              processes!,
+              origins!
             ),
       notes: coffee!.notes === data.notes ? coffee!.notes : data.notes,
       farmer: null
@@ -300,13 +300,14 @@ export const SelectField: React.FC<SelectProps> = ({
   return (
     <select
       {...(option === 'process'
-        ? { ...register('process') }
+        ? { ...register('process', { required: 'This is required' }) }
         : option === 'country'
-        ? { ...register('country') }
+        ? { ...register('country', { required: 'This is required' }) }
         : option === 'roastLevels'
-        ? { ...register('roastLevel') }
+        ? { ...register('roastLevel', { required: 'This is required' }) }
         : null)}
       aria-label={option}
+      className="select-dropdown"
     >
       {option === 'process'
         ? options.map((option) => (
