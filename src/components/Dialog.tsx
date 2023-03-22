@@ -16,6 +16,7 @@ interface DialogProps {
   formKey?: number;
   currentUserInfo?: any;
   fetchCurrentUserInfo?: (userId: string) => Promise<void>;
+  EditCoffeeForm?: React.FC<EditCoffeeFormProps>;
 }
 
 const Dialog: React.FC<DialogProps> = ({
